@@ -7,25 +7,35 @@ var stringifyJSON = function(obj) {
   // your code goes here
   var results = [];
 
-  if (typeof obj === "boolean" || typeof obj === "number"){
+  if (typeof obj === 'boolean' || typeof obj === 'number'){
     return '' + obj;
   }
 
   if (obj === null) {
-    return "null";
+    return 'null';
   }
 
-  if (typeof obj === "string") {
+  if (typeof obj === 'string') {
     return '"' + obj + '"';
   }
 
   if (Array.isArray(obj)) {
     for(var i = 0; i < obj.length; i++) {
       results.push(stringifyJSON(obj[i]));
-      //if (i !== obj.length - 1) {
-      //  results.push(',');
-      //}
     }
     return '[' + results.join(',') + ']'
   }
+
+  if (typeof obj === 'object') {
+    for(var k in obj) {
+      if (typeof obj[k] === 'function' || typeof obj[k] === 'undefined') {
+
+      } else {
+        results.push(stringifyJSON(k) + ":" + stringifyJSON(obj[k]));        
+      }
+    }
+    return '{' +results.join(',') + '}';
+  }
+
+
 };
